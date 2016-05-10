@@ -51,6 +51,7 @@ var projectCategory = require('./api/projectCategory');
 var user = require('./api/user');
 var workflowScheme = require('./api/workflowScheme');
 var worklog = require('./api/worklog');
+var greenhopper = require('./api/greenhopper');
 
 /**
  * Represents a client for the Jira REST API
@@ -209,6 +210,7 @@ var JiraClient = module.exports = function (config) {
     this.user = new user(this);
     this.workflowScheme = new workflowScheme(this);
     this.worklog = new worklog(this);
+    this.greenhopper = new greenhopper(this);
 };
 
 (function () {
@@ -221,9 +223,15 @@ var JiraClient = module.exports = function (config) {
      * @param path The path of the URL without concern for the root of the REST API.
      * @returns {string} The constructed URL.
      */
-    this.buildURL = function (path) {
-        var apiBasePath = this.path_prefix + 'rest/api/';
-        var version = this.apiVersion;
+    this.buildURL = function (path, apiName, apiVersion) {
+        if(!apiName) {
+            apiName = 'api/';
+        }
+        if(!apiVersion) {
+            apiVersion = this.apiVersion;
+        }
+        var apiBasePath = this.path_prefix + 'rest/'+ apiName;
+        var version = apiVersion;
         var requestUrl = url.format({
             protocol: this.protocol,
             hostname: this.host,

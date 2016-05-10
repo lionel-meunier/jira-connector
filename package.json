@@ -20,5 +20,8 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:floralvikings/jira-connector.git"
+  },
+  "devDependencies": {
+    "lodash": "^4.12.0"
   }
 }
